@@ -3,7 +3,8 @@ import { HomeOutlined, DashboardOutlined } from '@ant-design/icons';
 import { UserOutlined, PoweroffOutlined } from '@ant-design/icons/lib/icons'; 
 import "../styles/App.css"
 import HomePage from "../pages/HomePage";
-import Dashboard from "../pages/Dashboard"
+import Dashboard from "../pages/Dashboard";
+import SignIn from "../pages/SignIn";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
     <div style={{display: "flex", flexDirection: "column", flex: 1, height:'100vh'}}>
       <Header />
 
-      <div style={{display: "flex", flexDirection: "row", flex: 1, backgroundColor: '#2F2FA2'}}>
+      <div style={{display: "flex", flexDirection: "row", flex: 1, backgroundColor: 'white'}}>
         <NavBar />
         <Content />
       </div>
@@ -30,12 +31,20 @@ function Header() {
 }
 
 function Content() {
-  return <div>
+  return <div
+  style={{
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: '-100px'
+  }}
+>
     <Routes>
       <Route path="/" element={<HomePage/>}></Route>
-      <Route path="/dashboard" element={<div><Dashboard/></div>}></Route>
+      <Route path="/dashboard" element={<Dashboard/>}></Route>
       <Route path="/profile" element={<div>Profile</div>}></Route>
-      <Route path="/signin" element={<div>Sign in</div>}></Route>
+      <Route path="/signin" element={<SignIn />}></Route>
     </Routes>
   </div>
 }
@@ -66,7 +75,7 @@ function NavBar() {
 
 function Footer() {
   return <div className="footer">
-    Footer
+    
   </div>
 }
 
