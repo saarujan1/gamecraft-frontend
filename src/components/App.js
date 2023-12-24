@@ -5,6 +5,9 @@ import "../styles/App.css"
 import HomePage from "../pages/HomePage";
 import Dashboard from "../pages/Dashboard";
 import SignIn from "../pages/SignIn";
+import TermsOfService from "../pages/TermsOfService";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
+import Contact from "../pages/Contact";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
 function App() {
@@ -45,6 +48,11 @@ function Content() {
       <Route path="/dashboard" element={<Dashboard/>}></Route>
       <Route path="/profile" element={<div>Profile</div>}></Route>
       <Route path="/signin" element={<SignIn />}></Route>
+
+      // for footer
+      <Route path="/terms-of-service" element={<TermsOfService />}></Route>
+      <Route path="/privacy-policy" element={<PrivacyPolicy />}></Route>
+      <Route path="/contact" element={<Contact />}></Route>
     </Routes>
   </div>
 }
@@ -74,9 +82,15 @@ function NavBar() {
 }
 
 function Footer() {
-  return <div className="footer">
-    
-  </div>
+  const year = new Date().getFullYear();
+  return (
+    <div className="footer">
+      <p>© {year} GameCraft - Community Driven Game Development</p>
+      <p><a href="/terms-of-service">Terms of Service</a> | <a href="/privacy-policy">Privacy Policy</a></p>
+      <p><a href="/contact">Contact Us</a></p>
+    </div>
+  );
 }
+
 
 export default App;
