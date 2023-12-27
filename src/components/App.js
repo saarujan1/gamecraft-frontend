@@ -1,9 +1,11 @@
 import {Menu} from "antd"
 import { HomeOutlined, DashboardOutlined } from '@ant-design/icons'; 
-import { UserOutlined, PoweroffOutlined } from '@ant-design/icons/lib/icons'; 
+import { UserOutlined, PoweroffOutlined } from '@ant-design/icons/lib/icons';
+import { EditOutlined } from '@ant-design/icons/lib/icons';
 import "../styles/App.css"
 import HomePage from "../pages/HomePage";
 import Dashboard from "../pages/Dashboard";
+import SubmitPost from '../pages/SubmitPost';
 import SignIn from "../pages/SignIn";
 import TermsOfService from "../pages/TermsOfService";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
@@ -11,7 +13,6 @@ import Contact from "../pages/Contact";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
 function App() {
-
   return (
     <div style={{display: "flex", flexDirection: "column", flex: 1, height:'100vh'}}>
       <Header />
@@ -26,7 +27,6 @@ function App() {
   );
 }
 
-
 function Header() {
   return <div className="header">
     GameCraft
@@ -40,7 +40,7 @@ function Content() {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: '-100px'
+    margin: 'auto', 
   }}
 >
     <Routes>
@@ -48,6 +48,7 @@ function Content() {
       <Route path="/dashboard" element={<Dashboard/>}></Route>
       <Route path="/profile" element={<div>Profile</div>}></Route>
       <Route path="/signin" element={<SignIn />}></Route>
+      <Route path="/submit-post" element={<SubmitPost />}></Route>
 
       // for footer
       <Route path="/terms-of-service" element={<TermsOfService />}></Route>
@@ -65,7 +66,7 @@ function NavBar() {
     <Menu 
       style={{ backgroundColor: '#2F2FA2' }}
       onClick={({key})=>{
-      navigate(key);
+        navigate(key);
       }}
 
       defaultSelectedKeys={[window.location.pathname]}
@@ -74,6 +75,7 @@ function NavBar() {
         {label: "Home", key: "/", icon: <HomeOutlined />},
         {label: "Dashboard", key: "/dashboard", icon: <DashboardOutlined />},
         {label: "Profile", key: "/profile", icon: <UserOutlined />},
+        {label: "Submit Post", key: "/submit-post", icon: <EditOutlined /> },
         {label: "Sign in", key: "/signin", icon: <PoweroffOutlined />},
       ]}>
     </Menu>
@@ -91,6 +93,5 @@ function Footer() {
     </div>
   );
 }
-
 
 export default App;
