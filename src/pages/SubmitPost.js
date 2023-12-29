@@ -1,57 +1,113 @@
 import React, { useState } from 'react';
+import { Button, Form, Input } from 'antd';
 
 const SubmitPost = () => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Create a new post object
-        const post = { title, description };
-        // Send a POST request to your backend API
-        fetch('/api/posts', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(post),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-            // Reset form fields
-            setTitle('');
-            setDescription('');
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    };
-    
 
     return (
-    <div style={{ padding: '20px' }}>
-        <h2>Submit a Game Idea</h2>
-        <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title:</label>
-        <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-        />
-
-        <label htmlFor="description">Description:</label>
-        <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-        ></textarea>
-
-        <button type="submit">Submit Post</button>
-        </form>
+    <div>
+       <SubmitGamePost/>
     </div>
     );
 };
+
+function SubmitGamePost() {
+    //send to api
+  const onFinish = (values) => {
+    console.log('Sign in Success:', values);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Sign in Failed:', errorInfo);
+  };
+
+  return (
+    <Form
+      name="signInForm"
+      labelCol={{
+        span: 9,
+      }}
+      wrapperCol={{
+        span: 18,
+      }}
+      style={{
+        maxWidth: 700,
+      }}
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      <Form.Item
+        label="game name"
+        name="gameName"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your game name!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label="developer name"
+        name="devName"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your name!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="description"
+        name="description"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your game description!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="roadmap"
+        name="roadmap"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your roadmap!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="shareprice"
+        name="shareprice"
+      >
+        <Input />
+      </Form.Item>
+      
+
+      <Form.Item
+        wrapperCol={{
+          offset: 9,
+          span: 18,
+        }}
+      >
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
+  );
+}
 
 export default SubmitPost;

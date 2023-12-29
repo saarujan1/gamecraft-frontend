@@ -64,6 +64,12 @@
 
 .ant-menu-item {
   color: #F64C72; 
+  background-color: #242582;
+}
+
+.ant-menu-item:hover {
+  background-color: #1890ff !important; 
+  color: #F64C72 !important;
 }
 
 /* Add these styles for HomePage component */

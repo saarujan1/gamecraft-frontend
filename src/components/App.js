@@ -1,5 +1,5 @@
 import {Menu} from "antd"
-import { HomeOutlined, DashboardOutlined } from '@ant-design/icons'; 
+import { HomeOutlined, DashboardOutlined, BulbOutlined } from '@ant-design/icons'; 
 import { UserOutlined, PoweroffOutlined } from '@ant-design/icons/lib/icons';
 import { EditOutlined } from '@ant-design/icons/lib/icons';
 import "../styles/App.css"
@@ -18,7 +18,7 @@ function App() {
       <Header />
 
       <div style={{display: "flex", flexDirection: "row", flex: 1, backgroundColor: 'white'}}>
-        <NavBar />
+        
         <Content />
       </div>
 
@@ -28,9 +28,12 @@ function App() {
 }
 
 function Header() {
-  return <div className="header">
-    GameCraft
-  </div>
+  return (
+   <div className="header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ marginLeft: '10%' }}>GameCraft</div>
+      <div style={{ marginRight: '10%' }}><NavBar/></div>
+    </div>
+  )
 }
 
 function Content() {
@@ -62,9 +65,10 @@ function NavBar() {
   const navigate = useNavigate()
 
   return (
-  <div style={{display: "flex", flexDirection: "row"}}>
+  <div >
     <Menu 
-      style={{ backgroundColor: '#2F2FA2' }}
+      mode="horizontal"
+      style={{minWidth: "680px", backgroundColor: "#242582"}}
       onClick={({key})=>{
         navigate(key);
       }}
@@ -73,9 +77,10 @@ function NavBar() {
 
       items={[
         {label: "Home", key: "/", icon: <HomeOutlined />},
+        {label: "Discover", key: "/discover", icon: <BulbOutlined />},
+        {label: "Start a game", key: "/submit-post", icon: <EditOutlined /> },
         {label: "Dashboard", key: "/dashboard", icon: <DashboardOutlined />},
         {label: "Profile", key: "/profile", icon: <UserOutlined />},
-        {label: "Submit Post", key: "/submit-post", icon: <EditOutlined /> },
         {label: "Sign in", key: "/signin", icon: <PoweroffOutlined />},
       ]}>
     </Menu>
@@ -94,7 +99,7 @@ function Footer() {
         </a>{' '}
         |{' '}
         <a href="/privacy-policy" style={{ color: 'white' }}>
-          Privacy Policy
+          Privacy Policy 
         </a>
       </p>
       <p>
