@@ -58,11 +58,14 @@ const HomePage = () => {
     console.log('Logging in:', { loginUsername, loginPassword });
   };
 
+
   return (
     <div>
-      <h1>Welcome to GameCraft</h1>
-      <p>GameCraft is a community-driven game development app. Here, you can:</p>
-      <ul>
+      <h1 className="welcome-heading">Welcome to GameCraft</h1>
+      <p className="intro-text">
+        GameCraft is a community-driven game development app. Here, you can:
+      </p>
+      <ul className="feature-list">
         <li>View all games on our dashboard, including top-voted games and games you follow</li>
         <li>Register as a game developer or a user</li>
         <li>Submit your game ideas and give options for users to contribute</li>
@@ -71,21 +74,22 @@ const HomePage = () => {
         <li>See analytics after a game has been published</li>
       </ul>
 
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
+      <h2 className="section-heading">Register</h2>
+      <form onSubmit={handleRegister} className="auth-form">
         <input type="text" value={registerUsername} onChange={(e) => setRegisterUsername(e.target.value)} placeholder="Username" required />
         <input type="password" value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} placeholder="Password" required />
-        <button type="submit">Register</button>
+        <button type="submit" className="auth-button">Register</button>
       </form>
 
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+      <h2 className="section-heading">Login</h2>
+      <form onSubmit={handleLogin} className="auth-form">
         <input type="text" value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} placeholder="Username" required />
         <input type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} placeholder="Password" required />
-        <button type="submit">Login</button>
+        <button type="submit" className="auth-button">Login</button>
       </form>
     </div>
   );
 };
+
 
 export default HomePage;

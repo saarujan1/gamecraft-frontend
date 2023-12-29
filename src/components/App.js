@@ -88,10 +88,23 @@ function Footer() {
   return (
     <div className="footer">
       <p>© {year} GameCraft - Community Driven Game Development</p>
-      <p><a href="/terms-of-service">Terms of Service</a> | <a href="/privacy-policy">Privacy Policy</a></p>
-      <p><a href="/contact">Contact Us</a></p>
+      <p>
+        <a href="/terms-of-service" style={{ color: 'white' }}>
+          Terms of Service
+        </a>{' '}
+        |{' '}
+        <a href="/privacy-policy" style={{ color: 'white' }}>
+          Privacy Policy
+        </a>
+      </p>
+      <p>
+        <a href="/contact" style={{ color: 'white' }}>
+          Contact Us
+        </a>
+      </p>
     </div>
   );
 }
+
 
 export default App;

@@ -1,19 +1,24 @@
 import React from 'react';
 
 function Contact() {
+    const containerStyle = {
+        textAlign: 'center',
+    };
+
     return (
-        <div>
+        <div style={containerStyle}>
             <h1>Contact Us</h1>
             <p>
-            If you have any questions or suggestions about our Terms of Service or Privacy Policy, do not hesitate to contact us.
+                If you have any questions or suggestions about our Terms of Service or Privacy Policy, do not hesitate to contact us.
             </p>
             <p>
-            Email: support@gamecraft.com
+                Email: support@gamecraft.com
             </p>
             <p>
-            Phone: +1 234 567 890
+                Phone: +1 234 567 890
             </p>
         </div>
     );
 }
+
 export default Contact;
