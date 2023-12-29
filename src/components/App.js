@@ -14,7 +14,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 
 function App() {
   return (
-    <div style={{display: "flex", flexDirection: "column", flex: 1, height:'100vh'}}>
+    <>
       <Header />
 
       <div style={{display: "flex", flexDirection: "row", flex: 1, backgroundColor: 'white'}}>
@@ -23,13 +23,13 @@ function App() {
       </div>
 
       <Footer />
-    </div>
+      </>
   );
 }
 
 function Header() {
   return (
-   <div className="header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+   <div className="header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: "fixed", width: '100%', marginBottom: '10%', zIndex: '1' }}>
       <div style={{ marginLeft: '10%' }}>GameCraft</div>
       <div style={{ marginRight: '10%' }}><NavBar/></div>
     </div>
@@ -39,11 +39,9 @@ function Header() {
 function Content() {
   return <div
   style={{
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 'auto', 
+    marginTop: '10%',
+    marginLeft: '10%', 
+    marginRight: '10%'
   }}
 >
     <Routes>

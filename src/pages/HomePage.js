@@ -1,93 +1,38 @@
+import { Row, Col } from 'antd';
 import React, { useState } from 'react';
+import homepage1 from "../assets/homepage1.svg"
 
 const HomePage = () => {
-  const [registerUsername, setRegisterUsername] = useState('');
-  const [registerPassword, setRegisterPassword] = useState('');
-  const [loginUsername, setLoginUsername] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
-
-  const handleRegister = (event) => {
-    event.preventDefault();
-    // Handle the registration logic here
-    /* 
-    event.preventDefault();
-
-  // Create a new user object
-  const user = { username: registerUsername, password: registerPassword };
-
-  // Send a POST request to your backend API
-  const response = await fetch('/api/register', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(user),
-  });
-
-  if (response.ok) {
-    console.log('Registration successful');
-  } else {
-    console.log('Registration failed');
-  }
-
-    */
-    console.log('Registering:', { registerUsername, registerPassword });
-  };
-
-  const handleLogin = (event) => {
-    event.preventDefault();
-    // Handle the login logic here
-    /*
-    const handleLogin = async (event) => {
-  event.preventDefault();
-
-  // Create a new user object
-  const user = { username: loginUsername, password: loginPassword };
-
-  // Send a POST request to your backend API
-  const response = await fetch('/api/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(user),
-  });
-
-  if (response.ok) {
-    console.log('Login successful');
-  } else {
-    console.log('Login failed');
-  }
-    */
-    console.log('Logging in:', { loginUsername, loginPassword });
-  };
-
-
+ 
   return (
     <div>
-      <h1 className="welcome-heading">Welcome to GameCraft</h1>
+      <Row style={{marginBottom: '100px'}}>
+      <Col span={12}>
+      <h1 className="welcome-heading">Your game,</h1>
+      <h1 className="welcome-heading" style={{color: "#F64C72"}}>crafted to life</h1>
       <p className="intro-text">
-        GameCraft is a community-driven game development app. Here, you can:
+        GameCraft is a community-driven game development app
       </p>
-      <ul className="feature-list">
-        <li>View all games on our dashboard, including top-voted games and games you follow</li>
-        <li>Register as a game developer or a user</li>
-        <li>Submit your game ideas and give options for users to contribute</li>
-        <li>Provide a roadmap for your game and set a price for a share in the project</li>
-        <li>Vote on various aspects of games</li>
-        <li>See analytics after a game has been published</li>
+      <h1 style={{color: "#F64C72", fontSize: '60px', fontWeight: 'bold'}}>Think, innovate, create</h1>
+      </Col>
+      <Col span={12}>
+        <img src={homepage1} alt="Idea" />
+      </Col>
+      </Row>
+
+      <ul className="feature-list" style={{fontSize: "30px"}}>
+        <li>- View all games on our dashboard, including top-voted games and games you follow</li>
+        <li>- Register as a game developer or a user</li>
+        <li>- Submit your game ideas and give options for users to contribute</li>
+        <li>- Provide a roadmap for your game and set a price for a share in the project</li>
+        <li>- Vote on various aspects of games</li>
+        <li>- See analytics after a game has been published</li>
       </ul>
-
-      <h2 className="section-heading">Register</h2>
-      <form onSubmit={handleRegister} className="auth-form">
-        <input type="text" value={registerUsername} onChange={(e) => setRegisterUsername(e.target.value)} placeholder="Username" required />
-        <input type="password" value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} placeholder="Password" required />
-        <button type="submit" className="auth-button">Register</button>
-      </form>
-
-      <h2 className="section-heading">Login</h2>
-      <form onSubmit={handleLogin} className="auth-form">
-        <input type="text" value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} placeholder="Username" required />
-        <input type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} placeholder="Password" required />
-        <button type="submit" className="auth-button">Login</button>
-      </form>
+      
+      
+      
     </div>
+    
   );
 };
 

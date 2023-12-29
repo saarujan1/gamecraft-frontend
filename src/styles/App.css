@@ -75,11 +75,12 @@
 /* Add these styles for HomePage component */
 
 .welcome-heading {
-  font-size: 28px;
+  font-size: 70px;
 }
 
 .intro-text {
   margin-bottom: 20px;
+  font-size: 40px;
 }
 
 .feature-list {
