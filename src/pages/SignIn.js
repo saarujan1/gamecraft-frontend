@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Checkbox, Form, Input, Card, Space } from 'antd';
+import { Button, Form, Input, Card, Space, message } from 'antd';
+import { handleUserRegister, handleUserLogin } from '../services/api';
 
 const SignIn = () => {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -39,8 +40,16 @@ const SignIn = () => {
 
 function SignInForm() {
     //send to api
-  const onFinish = (values) => {
-    console.log('Sign in Success:', values);
+  const onFinish = async (values) => {
+    try{
+      await handleUserLogin(values)
+      console.log('Login Success:', values);
+      message.success('Sign in successful!');
+    }
+    catch(error){
+      console.log(error)
+      message.error('An error occurred during sign in. Please try again.');
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -108,8 +117,16 @@ function SignInForm() {
 
 function SignUpForm() {
     //send to api
-  const onFinishRegister = (values) => {
-    console.log('Sign up Success:', values);
+  const onFinishRegister = async (values) => {
+    try{
+      await handleUserRegister(values)
+      console.log('Sign up Success:', values);
+      message.success('Registration successful!');
+    }
+    catch(error){
+      console.log(error)
+      message.error('An error occurred during registration. Please try again.');
+    }
   };
 
   const onFinishFailedRegister = (errorInfo) => {
