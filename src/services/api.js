@@ -44,3 +44,9 @@ export const handleUserLogin = async (data) => {
 
   return response
 }
+
+export const handleGameSubmit = async (data) => {
+  const response = await fetchData('/game/submit', data, 'POST')
+
+  return response
+}
