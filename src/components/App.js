@@ -76,22 +76,25 @@ function NavBar() {
   };
 
   // Dynamically generate menu items based on authentication status
-  const menuItems = [
-    { label: 'Home', key: '/', icon: <HomeOutlined /> },
-    { label: 'Discover', key: '/discover', icon: <BulbOutlined /> },
-    { label: 'Start a game', key: '/submit-post', icon: <EditOutlined /> },
-    { label: 'Dashboard', key: '/dashboard', icon: <DashboardOutlined /> },
-    { label: 'Profile', key: '/profile', icon: <UserOutlined /> },
-    isAuthenticated
-      ? { label: 'Sign out', key: 'signout', icon: <PoweroffOutlined /> }
-      : { label: 'Sign in', key: '/signin', icon: <PoweroffOutlined /> },
-  ];
+  const menuItems = isAuthenticated
+    ? [
+        { label: 'Home', key: '/', icon: <HomeOutlined /> },
+        { label: 'Discover', key: '/discover', icon: <BulbOutlined /> },
+        { label: 'Start a game', key: '/submit-post', icon: <EditOutlined /> },
+        { label: 'Dashboard', key: '/dashboard', icon: <DashboardOutlined /> },
+        { label: 'Profile', key: '/profile', icon: <UserOutlined /> },
+        { label: 'Sign out', key: 'signout', icon: <PoweroffOutlined /> },
+      ]
+    : [
+        { label: 'Home', key: '/', icon: <HomeOutlined /> },
+        { label: 'Sign in', key: '/signin', icon: <PoweroffOutlined /> },
+      ];
 
   return (
     <div>
       <Menu
         mode="horizontal"
-        style={{ minWidth: '680px', backgroundColor: '#242582' }}
+        style={{ minWidth: '780px', backgroundColor: '#242582' }}
         onClick={(e) => onMenuClick(e.key)}
         defaultSelectedKeys={[window.location.pathname]}
         items={menuItems}
