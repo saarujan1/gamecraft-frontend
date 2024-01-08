@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Card, Space, message } from 'antd';
+import { Button, Form, Input, Card, Space, message, Spin } from 'antd';
 import { useAuth } from '../helper/authenticator'; 
 import { useNavigate } from 'react-router-dom';
 import { handleUserRegister } from '../services/api';
@@ -7,6 +7,7 @@ import { handleUserRegister } from '../services/api';
 const SignIn = () => {
   const [isSignIn, setIsSignIn] = useState(true);
   const { isAuthenticated, signIn, signOut } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const toggleView = () => {
@@ -15,11 +16,14 @@ const SignIn = () => {
 
   const onFinishSignIn = async (values) => {
     try {
+      setIsLoading(true)
       await signIn(values.username, values.password);
       message.success('Sign in successful!');
       navigate('/dashboard'); // replace with your actual path to the dashboard
     } catch (error) {
       message.error('An error occurred during sign in. Please try again.');
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -29,6 +33,7 @@ const SignIn = () => {
 
   const onFinishSignUp = async (values) => {
     try {
+      setIsLoading(true)
       const userData = {
         username: values.username,
         password: values.password,
@@ -38,6 +43,8 @@ const SignIn = () => {
       setIsSignIn(true); // Switch to the sign-in form after successful registration
     } catch (error) {
       message.error('An error occurred during registration. Please try again.');
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -53,6 +60,10 @@ const SignIn = () => {
         <Button onClick={signOut}>Sign Out</Button>
       </div>
     );
+  }
+
+  if (isLoading) {
+    return <Spin />;
   }
 
   return (
