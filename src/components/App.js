@@ -4,6 +4,7 @@ import { UserOutlined, PoweroffOutlined } from '@ant-design/icons/lib/icons';
 import { EditOutlined } from '@ant-design/icons/lib/icons';
 import "../styles/App.css"
 import HomePage from "../pages/HomePage";
+import Discover from "../pages/Discover";
 import Dashboard from "../pages/Dashboard";
 import SubmitPost from '../pages/SubmitPost';
 import SignIn from "../pages/SignIn";
@@ -48,6 +49,7 @@ function Content() {
 >
     <Routes>
       <Route path="/" element={<HomePage/>}></Route>
+      <Route path="/discover" element={<Discover/>}></Route>
       <Route path="/dashboard" element={<Dashboard/>}></Route>
       <Route path="/profile" element={<div>Profile</div>}></Route>
       <Route path="/signin" element={<SignIn />}></Route>
