@@ -1,20 +1,94 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, Card, Space, message } from 'antd';
-import { handleUserRegister, handleUserLogin } from '../services/api';
+import { useAuth } from '../helper/authenticator'; 
+import { useNavigate } from 'react-router-dom';
+import { handleUserRegister } from '../services/api';
 
 const SignIn = () => {
   const [isSignIn, setIsSignIn] = useState(true);
+  const { isAuthenticated, signIn, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const toggleView = () => {
     setIsSignIn(!isSignIn);
   };
+
+  const onFinishSignIn = async (values) => {
+    try {
+      await signIn(values.username, values.password);
+      message.success('Sign in successful!');
+      navigate('/dashboard'); // replace with your actual path to the dashboard
+    } catch (error) {
+      message.error('An error occurred during sign in. Please try again.');
+    }
+  };
+
+  const onFinishFailedSignIn = (errorInfo) => {
+    message.error('Sign in Failed: ' + errorInfo);
+  };
+
+  const onFinishSignUp = async (values) => {
+    try {
+      const userData = {
+        username: values.username,
+        password: values.password,
+      };
+      await handleUserRegister(userData);
+      message.success('Registration successful!');
+      setIsSignIn(true); // Switch to the sign-in form after successful registration
+    } catch (error) {
+      message.error('An error occurred during registration. Please try again.');
+    }
+  };
+
+
+  const onFinishFailedSignUp = (errorInfo) => {
+    message.error('Registration Failed: ' + errorInfo);
+  };
+
+  if (isAuthenticated) {
+    return (
+      <div>
+        <p>You are logged in!</p>
+        <Button onClick={signOut}>Sign Out</Button>
+      </div>
+    );
+  }
 
   return (
     <Space direction="vertical" size={16}>
       <Card title={isSignIn ? 'Sign in' : 'Sign up'} style={{ width: 400 }}>
         {isSignIn ? (
           <>
-            <SignInForm />
+            <Form
+              name="signInForm"
+              initialValues={{ remember: true }}
+              onFinish={onFinishSignIn}
+              onFinishFailed={onFinishFailedSignIn}
+              autoComplete="off"
+            >
+              <Form.Item
+                label="Username"
+                name="username"
+                rules={[{ required: true, message: 'Please input your username!' }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+              >
+                <Input.Password />
+              </Form.Item>
+
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Sign In
+                </Button>
+              </Form.Item>
+            </Form>
             <p>
               New to GameCraft?{' '}
               <a href="#" onClick={toggleView}>
@@ -24,7 +98,55 @@ const SignIn = () => {
           </>
         ) : (
           <>
-            <SignUpForm />
+            <Form
+              name="signUpForm"
+              initialValues={{ remember: true }}
+              onFinish={onFinishSignUp}
+              onFinishFailed={onFinishFailedSignUp}
+              autoComplete="off"
+            >
+              <Form.Item
+                label="Username"
+                name="username"
+                rules={[{ required: true, message: 'Please input your username!' }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+              >
+                <Input.Password />
+              </Form.Item>
+
+              <Form.Item
+                label="Confirm Password"
+                name="confirmPassword"
+                dependencies={['password']}
+                hasFeedback
+                rules={[
+                  { required: true, message: 'Please confirm your password!' },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue('password') === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Register
+                </Button>
+              </Form.Item>
+            </Form>
             <p>
               Already have an account?{' '}
               <a href="#" onClick={toggleView}>
@@ -37,159 +159,5 @@ const SignIn = () => {
     </Space>
   );
 };
-
-function SignInForm() {
-    //send to api
-  const onFinish = async (values) => {
-    try{
-      await handleUserLogin(values)
-      console.log('Login Success:', values);
-      message.success('Sign in successful!');
-    }
-    catch(error){
-      console.log(error)
-      message.error('An error occurred during sign in. Please try again.');
-    }
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log('Sign in Failed:', errorInfo);
-  };
-
-  return (
-    <Form
-      name="signInForm"
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 16,
-      }}
-      style={{
-        maxWidth: 600,
-      }}
-      initialValues={{
-        remember: true,
-      }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-    >
-      <Form.Item
-        label="Username"
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your username!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item
-        wrapperCol={{
-          offset: 8,
-          span: 16,
-        }}
-      >
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
-  );
-}
-
-function SignUpForm() {
-    //send to api
-  const onFinishRegister = async (values) => {
-    try{
-      await handleUserRegister(values)
-      console.log('Sign up Success:', values);
-      message.success('Registration successful!');
-    }
-    catch(error){
-      console.log(error)
-      message.error('An error occurred during registration. Please try again.');
-    }
-  };
-
-  const onFinishFailedRegister = (errorInfo) => {
-    console.log('Sign up Failed:', errorInfo);
-  };
-
-  return (
-    <Form
-      name="signUpForm"
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 16,
-      }}
-      style={{
-        maxWidth: 600,
-      }}
-      initialValues={{
-        remember: true,
-      }}
-      onFinish={onFinishRegister}
-      onFinishFailed={onFinishFailedRegister}
-      autoComplete="off"
-    >
-      <Form.Item
-        label="Username"
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your username!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item
-        wrapperCol={{
-          offset: 8,
-          span: 16,
-        }}
-      >
-        <Button type="primary" htmlType="submit">
-          Register
-        </Button>
-      </Form.Item>
-    </Form>
-  );
-}
 
 export default SignIn;

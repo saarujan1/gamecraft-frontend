@@ -11,6 +11,8 @@ import TermsOfService from "../pages/TermsOfService";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import Contact from "../pages/Contact";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import React from 'react';
+import { useAuth } from '../helper/authenticator'; 
 
 function App() {
   return (
@@ -60,30 +62,42 @@ function Content() {
 }
 
 function NavBar() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { isAuthenticated, signOut } = useAuth();
+
+  // Handler for menu item clicks
+  const onMenuClick = (key) => {
+    if (key === 'signout') {
+      signOut();
+      navigate('/');
+    } else {
+      navigate(key);
+    }
+  };
+
+  // Dynamically generate menu items based on authentication status
+  const menuItems = [
+    { label: 'Home', key: '/', icon: <HomeOutlined /> },
+    { label: 'Discover', key: '/discover', icon: <BulbOutlined /> },
+    { label: 'Start a game', key: '/submit-post', icon: <EditOutlined /> },
+    { label: 'Dashboard', key: '/dashboard', icon: <DashboardOutlined /> },
+    { label: 'Profile', key: '/profile', icon: <UserOutlined /> },
+    isAuthenticated
+      ? { label: 'Sign out', key: 'signout', icon: <PoweroffOutlined /> }
+      : { label: 'Sign in', key: '/signin', icon: <PoweroffOutlined /> },
+  ];
 
   return (
-  <div >
-    <Menu 
-      mode="horizontal"
-      style={{minWidth: "680px", backgroundColor: "#242582"}}
-      onClick={({key})=>{
-        navigate(key);
-      }}
-
-      defaultSelectedKeys={[window.location.pathname]}
-
-      items={[
-        {label: "Home", key: "/", icon: <HomeOutlined />},
-        {label: "Discover", key: "/discover", icon: <BulbOutlined />},
-        {label: "Start a game", key: "/submit-post", icon: <EditOutlined /> },
-        {label: "Dashboard", key: "/dashboard", icon: <DashboardOutlined />},
-        {label: "Profile", key: "/profile", icon: <UserOutlined />},
-        {label: "Sign in", key: "/signin", icon: <PoweroffOutlined />},
-      ]}>
-    </Menu>
-  </div>
-  )
+    <div>
+      <Menu
+        mode="horizontal"
+        style={{ minWidth: '680px', backgroundColor: '#242582' }}
+        onClick={(e) => onMenuClick(e.key)}
+        defaultSelectedKeys={[window.location.pathname]}
+        items={menuItems}
+      />
+    </div>
+  );
 }
 
 function Footer() {
