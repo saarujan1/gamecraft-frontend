@@ -50,3 +50,9 @@ export const handleGameSubmit = async (data) => {
 
   return response
 }
+
+export const handleGameGetall = async (data) => {
+  const response = await fetchData('/game/getall', data, 'GET')
+
+  return response
+}
