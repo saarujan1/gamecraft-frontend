@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Spin, message } from 'antd';
+import { handleGameSubmit } from '../services/api';
 
 const SubmitPost = () => {
 
@@ -11,14 +12,40 @@ const SubmitPost = () => {
 };
 
 function SubmitGamePost() {
-    //send to api
-  const onFinish = (values) => {
-    console.log('Sign in Success:', values);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onFinish = async (values) => {
+    const gameData = {
+      name : values.name,
+      devName : values.devName,
+      description : values.description,
+      image : values.image,
+      options : values.options,
+      roadmap : values.roadmap,
+      sharePrice : parseFloat(values.sharePrice),
+      minThreshold : values.minThreshold,
+      revenueSharing : parseInt(values.revenueSharing, 10)
+    }
+    try {
+      setIsLoading(true)
+      await handleGameSubmit(gameData);
+      message.success('Game successfuly submitted!');
+    } catch (error) {
+      console.log(error)
+      message.error('An error occurred. Please try again.');
+    } finally {
+      setIsLoading(false)
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Sign in Failed:', errorInfo);
   };
+
+  if (isLoading) {
+    return <Spin />;
+  }
 
   return (
     <Form
@@ -41,7 +68,7 @@ function SubmitGamePost() {
     >
       <Form.Item
         label="game name"
-        name="gameName"
+        name="name"
         rules={[
           {
             required: true,
@@ -70,31 +97,111 @@ function SubmitGamePost() {
         rules={[
           {
             required: true,
-            message: 'Please input your game description!',
+          },
+          {
+            min: 15,
+            message: 'Description should be at least 15 letters long.',
           },
         ]}
       >
         <Input />
       </Form.Item>
+      <Form.Item
+        label="image"
+        name="image"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your image!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="options"
+        name="options"
+        rules={[
+          {
+            required: true,
+            message: 'Please input options!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      
       <Form.Item
         label="roadmap"
         name="roadmap"
         rules={[
           {
             required: true,
-            message: 'Please input your roadmap!',
+            message: 'Please input roadmap!',
           },
         ]}
       >
         <Input />
       </Form.Item>
+
       <Form.Item
-        label="shareprice"
-        name="shareprice"
+        label="share price"
+        name="sharePrice"
+        rules={[
+          {
+            required: true,
+          },
+          {
+            validator: (_, value) => {
+              const numericValue = parseFloat(value);
+              if (isNaN(numericValue)) {
+                return Promise.reject(new Error('Share price must be a valid number!'));
+              } else if (numericValue <= 0.1) {
+                return Promise.reject(new Error('Share price must be greater than 0.1!'));
+              }
+              return Promise.resolve();
+            },
+          },
+        ]}
       >
         <Input />
       </Form.Item>
-      
+
+      <Form.Item
+        label="minThreshold"
+        name="minThreshold"
+        rules={[
+          {
+            required: true,
+            message: 'Please input minimum threshold!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label="revenueSharing"
+        name="revenueSharing"
+        rules={[
+          {
+            required: true,
+          },
+          {
+            validator: (_, value) => {
+              const numericValue = parseFloat(value);
+              if (isNaN(numericValue)) {
+                return Promise.reject(new Error('Revenue sharing must be a valid number!'));
+              } else if (numericValue <= 10) {
+                return Promise.reject(new Error('Revenue sharing must be greater than 10!'));
+              }
+              return Promise.resolve();
+            },
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
 
       <Form.Item
         wrapperCol={{
