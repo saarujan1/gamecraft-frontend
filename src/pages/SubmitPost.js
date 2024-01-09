@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Spin, message } from 'antd';
+import { Button, Form, Input, Spin, message, Card } from 'antd';
 import { handleGameSubmit } from '../services/api';
 import { useAuth } from '../helper/authenticator'
 
@@ -16,7 +16,9 @@ const SubmitPost = () => {
         height: '100vh',
       }}>
         <h1>Create a Game</h1> 
-        <SubmitGamePost devName={username}/>
+         <Card style={{ width: '60vh'}}>
+          <SubmitGamePost devName={username} />
+        </Card>
       </div>
     );
 };

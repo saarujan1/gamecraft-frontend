@@ -29,9 +29,9 @@ function App() {
 
 function Header() {
   return (
-   <div className="header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: "fixed", width: '100%', marginBottom: '10%', zIndex: '1' }}>
-      <div style={{ marginLeft: '10%' }}>GameCraft</div>
-      <div style={{ marginRight: '10%' }}><NavBar/></div>
+   <div className="header" style={{ display: 'flex', alignItems: 'center', position: "fixed", width: '100%', marginBottom: '10%', zIndex: '1' }}>
+      <div style={{ }}>GameCraft</div>
+      <div style={{}}><NavBar/></div>
     </div>
   )
 }
@@ -90,7 +90,7 @@ function NavBar() {
       ];
 
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
       <Menu
         mode="horizontal"
         style={{ minWidth: '780px', backgroundColor: '#242582' }}
