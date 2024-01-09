@@ -5,11 +5,13 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState('');
 
   const signIn = async (username, password) => {
     try {
       // Here we call the actual API function for signing in
       const response = await handleUserLogin({ username, password });
+      setUsername(username);
       // Assuming the response will have a property "token" with the JWT
       localStorage.setItem('authToken', response.token);
       setIsAuthenticated(true);
@@ -30,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signIn, signOut }}>
+    <AuthContext.Provider value={{ isAuthenticated, username, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, Spin, message } from 'antd';
 import { handleGameSubmit } from '../services/api';
+import { useAuth } from '../helper/authenticator'
 
 const SubmitPost = () => {
+  const { isAuthenticated, username, signIn, signOut } = useAuth();
+
+  console.log('USERNAME:' , username)
 
     return (
       <div style={{ 
@@ -12,19 +16,21 @@ const SubmitPost = () => {
         height: '100vh',
       }}>
         <h1>Create a Game</h1> 
-        <SubmitGamePost/>
+        <SubmitGamePost devName={username}/>
       </div>
     );
 };
 
-function SubmitGamePost() {
+function SubmitGamePost({ devName }) {
+  console.log('DEVNAME:' , devName)
+
 
   const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = async (values) => {
     const gameData = {
       name : values.name,
-      devName : values.devName,
+      devName : devName,
       description : values.description,
       image : values.image,
       options : values.options,
@@ -85,18 +91,6 @@ function SubmitGamePost() {
         <Input />
       </Form.Item>
 
-      <Form.Item
-        label="developer name"
-        name="devName"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your name!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
       <Form.Item
         label="description"
         name="description"
