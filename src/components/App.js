@@ -17,16 +17,13 @@ import { useAuth } from '../helper/authenticator';
 
 function App() {
   return (
-    <>
+    <div className="App">
       <Header />
-
-      <div style={{display: "flex", flexDirection: "row", flex: 1, backgroundColor: 'white'}}>
-        
+      <div className="content-area">
         <Content />
       </div>
-
       <Footer />
-      </>
+    </div>
   );
 }
 
@@ -82,7 +79,7 @@ function NavBar() {
     ? [
         { label: 'Home', key: '/', icon: <HomeOutlined /> },
         { label: 'Discover', key: '/discover', icon: <BulbOutlined /> },
-        { label: 'Start a game', key: '/submit-post', icon: <EditOutlined /> },
+        { label: 'Create a game', key: '/submit-post', icon: <EditOutlined /> },
         { label: 'Dashboard', key: '/dashboard', icon: <DashboardOutlined /> },
         { label: 'Profile', key: '/profile', icon: <UserOutlined /> },
         { label: 'Sign out', key: 'signout', icon: <PoweroffOutlined /> },

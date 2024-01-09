@@ -5,9 +5,15 @@ import { handleGameSubmit } from '../services/api';
 const SubmitPost = () => {
 
     return (
-    <div>
-       <SubmitGamePost/>
-    </div>
+      <div style={{ 
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: '100vh',
+      }}>
+        <h1>Create a Game</h1> 
+        <SubmitGamePost/>
+      </div>
     );
 };
 
@@ -205,8 +211,10 @@ function SubmitGamePost() {
 
       <Form.Item
         wrapperCol={{
-          offset: 9,
-          span: 18,
+          span: 24,
+        }}
+        style={{
+          textAlign: 'center',
         }}
       >
         <Button type="primary" htmlType="submit">
