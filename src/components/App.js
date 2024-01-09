@@ -105,7 +105,7 @@ function NavBar() {
 function Footer() {
   const year = new Date().getFullYear();
   return (
-    <div className="footer">
+    <div className="footer" style={{zIndex: '1' }}>
       <p>© {year} GameCraft - Community Driven Game Development</p>
       <p>
         <a href="/terms-of-service" style={{ color: 'white' }}>
