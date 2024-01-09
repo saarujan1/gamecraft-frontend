@@ -16,7 +16,7 @@ const SubmitPost = () => {
         height: '100vh',
       }}>
         <h1>Create a Game</h1> 
-         <Card style={{ width: '60vh'}}>
+          <Card style={{ width: '60vh'}}>
           <SubmitGamePost devName={username} />
         </Card>
       </div>

@@ -4,6 +4,7 @@ import { UserOutlined, PoweroffOutlined } from '@ant-design/icons/lib/icons';
 import { EditOutlined } from '@ant-design/icons/lib/icons';
 import "../styles/App.css"
 import HomePage from "../pages/HomePage";
+import Profile from "../pages/Profile";
 import Discover from "../pages/Discover";
 import Dashboard from "../pages/Dashboard";
 import SubmitPost from '../pages/SubmitPost';
@@ -29,7 +30,7 @@ function App() {
 
 function Header() {
   return (
-   <div className="header" style={{ display: 'flex', alignItems: 'center', position: "fixed", width: '100%', marginBottom: '10%', zIndex: '1' }}>
+    <div className="header" style={{ display: 'flex', alignItems: 'center', position: "fixed", width: '100%', marginBottom: '10%', zIndex: '1' }}>
       <div style={{ }}>GameCraft</div>
       <div style={{}}><NavBar/></div>
     </div>
@@ -51,6 +52,7 @@ function Content() {
       <Route path="/profile" element={<div>Profile</div>}></Route>
       <Route path="/signin" element={<SignIn />}></Route>
       <Route path="/submit-post" element={<SubmitPost />}></Route>
+      <Route path="/profile" element={<Profile />}></Route>
 
       // for footer
       <Route path="/terms-of-service" element={<TermsOfService />}></Route>
