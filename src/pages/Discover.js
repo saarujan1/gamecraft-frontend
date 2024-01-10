@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, Skeleton, Button } from 'antd';
 import { handleGameGetall } from '../services/api';
 import { PlusOutlined } from '@ant-design/icons';
+import { useAuth } from '../helper/authenticator';
 
 const Discover = () => {
   const [games, setGames] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { username } = useAuth();
+  const [subscribedGames, setSubscribedGames] = useState([]);
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -22,10 +25,26 @@ const Discover = () => {
     fetchGames();
   }, []);
 
-  const handleSubscribeClick = (gameId) => {
-    // Implement your logic for subscribing to a game
-    console.log(`Subscribe clicked for game ID: ${gameId}`);
-  };
+  const handleSubscribeClick = async (gameId) => {
+   /* // Find the game with the given ID
+    const game = games.find(game => game.id === gameId);
+
+    try {
+      const data = await handleGameSubscribe({
+          username: username,
+          game_id: gameId,
+      });
+
+        if (data.result) {
+          setSubscribedGames(prevGames => [...prevGames, game]);
+      } else {
+          console.error('Error subscribing to game:', data.msg);
+      }
+  } catch (error) {
+      console.error('Error subscribing to game:', error.message);
+  }
+  */
+};
 
   return (
     <div>

@@ -5,6 +5,7 @@ import { useAuth } from '../helper/authenticator';
 
 function Profile() {
     const [games, setGames] = useState([]);
+    const [subscribedGames, setSubscribedGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const { username } = useAuth();
 
@@ -34,7 +35,7 @@ function Profile() {
             <Skeleton active />
         ) : (
             <Row gutter={[16, 16]}>
-            {userGames.map((game) => (
+            {userGames.length > 0 ? userGames.map((game) => (
                 <Col key={game.id} xs={24} sm={12} md={8} lg={8}>
                 <Card
                     title={game.title}
@@ -43,7 +44,24 @@ function Profile() {
                     <p>{game.description}</p>
                 </Card>
                 </Col>
-            ))}
+            )) : <p>No games submitted</p>}
+            </Row>
+        )}
+        <h2>Subscribed Games</h2>
+        {isLoading ? (
+            <Skeleton active />
+        ) : (
+            <Row gutter={[16, 16]}>
+            {subscribedGames.length > 0 ? subscribedGames.map((game) => (
+                <Col key={game.id} xs={24} sm={12} md={8} lg={8}>
+                <Card
+                    title={game.title}
+                    cover={<img src={game.image} alt={game.title} />}
+                >
+                    <p>{game.description}</p>
+                </Card>
+                </Col>
+            )) : <p>No subscribed games</p>}
             </Row>
         )}
         </div>
