@@ -22,17 +22,31 @@ function Profile() {
 
     useEffect(() => {
         const fetchGames = async () => {
-        try {
-            const response = await handleGameGetall();
-            setGames(response.data);
-            setIsLoading(false);
-        } catch (error) {
-            console.error('Error fetching games:', error);
-            setIsLoading(false);
-        }
+            try {
+                const response = await handleGameGetall();
+                setGames(response.data);
+            } catch (error) {
+                console.error('Error fetching games:', error);
+            } finally {
+                setIsLoading(false);
+            }
         };
 
-    fetchGames();
+        const fetchSubscribedGames = async () => {
+            try {
+                const data = await handleGameSubscribe({ username });
+                if (data.result) {
+                    setSubscribedGames(data.games);
+                } else {
+                    console.error('Error fetching subscribed games:', data.msg);
+                }
+            } catch (error) {
+                console.error('Error fetching subscribed games:', error.message);
+            }
+        };
+
+        fetchGames();
+        fetchSubscribedGames();
     }, []);
 
     const gameUpdateForm = (game) => {
@@ -88,8 +102,8 @@ function Profile() {
 
     return (
         <div>
-        <h1>Welcome back, {username}!</h1>
-        <h2>Your Submitted Game Ideas</h2>
+        <h1>Profile Page</h1>
+        <h2>My Games</h2>
         {isLoading ? (
             <Skeleton active />
         ) : (
@@ -97,9 +111,10 @@ function Profile() {
             {userGames.length > 0 ? userGames.map((game) => (
                 <Col key={game.id} xs={24} sm={12} md={8} lg={8}>
                 <Card
-                    title={game.name}
+                    title={game.title}
                     cover={<img src={game.image} alt={game.title} />}
                 >
+
                 <p>{game.description}</p>
                 <p>Share Price: ${game.sharePrice}</p>
                 <p>Minimum Threshold: {game.minThreshold}</p>
