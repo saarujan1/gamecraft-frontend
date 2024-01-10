@@ -16,14 +16,18 @@ const SignIn = () => {
 
   const onFinishSignIn = async (values) => {
     try {
-      setIsLoading(true)
-      await signIn(values.username, values.password);
-      message.success('Sign in successful!');
-      navigate('/dashboard'); // replace with your actual path to the dashboard
+      setIsLoading(true);
+      const signInSuccessful = await signIn(values.username, values.password);
+      if (signInSuccessful) {
+        message.success('Sign in successful!');
+        navigate('/dashboard');
+      } else {
+        message.error('An error occurred during sign in. Please try again.');
+      }
     } catch (error) {
       message.error('An error occurred during sign in. Please try again.');
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
