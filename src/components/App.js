@@ -49,7 +49,7 @@ function Content() {
       <Route path="/" element={<HomePage/>}></Route>
       <Route path="/discover" element={<Discover/>}></Route>
       <Route path="/dashboard" element={<Dashboard/>}></Route>
-      <Route path="/profile" element={<div>Profile</div>}></Route>
+      <Route path="/profile" element={<Profile/>}></Route>
       <Route path="/signin" element={<SignIn />}></Route>
       <Route path="/submit-post" element={<SubmitPost />}></Route>
       <Route path="/profile" element={<Profile />}></Route>

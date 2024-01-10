@@ -68,7 +68,7 @@ const Discover = () => {
                     </Button>
                   </>
                 }
-                cover={<img src={game.image} alt={game.name} />}
+                cover={<img src={game.image} />}
               >
                 <p>{game.description}</p>
                 <p>Developer: {game.devName}</p>

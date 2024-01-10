@@ -29,8 +29,8 @@ function Profile() {
 
     return (
         <div>
-        <h1>Profile Page</h1>
-        <h2>My Games</h2>
+        <h1>Welcome back, {username}!</h1>
+        <h2>Your Submitted Game Ideas</h2>
         {isLoading ? (
             <Skeleton active />
         ) : (
@@ -38,10 +38,14 @@ function Profile() {
             {userGames.length > 0 ? userGames.map((game) => (
                 <Col key={game.id} xs={24} sm={12} md={8} lg={8}>
                 <Card
-                    title={game.title}
+                    title={game.name}
                     cover={<img src={game.image} alt={game.title} />}
                 >
-                    <p>{game.description}</p>
+                
+                <p>{game.description}</p>
+                <p>Share Price: ${game.sharePrice}</p>
+                <p>Minimum Threshold: {game.minThreshold}</p>
+                <p>Revenue Sharing: {game.revenueSharing}%</p>
                 </Card>
                 </Col>
             )) : <p>No games submitted</p>}

@@ -40,7 +40,7 @@ export const handleUserRegister = async (data) => {
 }
 
 export const handleGameSubscribe = async (data) => {
-  const response = await fetchData('/user/subscribe', data, 'POST')
+  const response = await fetchData('/subscribe', data, 'POST')
 
   return response
 }
