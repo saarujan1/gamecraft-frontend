@@ -62,3 +62,9 @@ export const handleGameGetall = async (data) => {
 
   return response
 }
+
+export const handleGameUpdate = async (data) => {
+  const response = await fetchData('/game/update', data, 'PUT')
+
+  return response
+}

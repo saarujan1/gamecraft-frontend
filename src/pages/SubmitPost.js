@@ -106,7 +106,7 @@ function SubmitGamePost({ devName }) {
           },
         ]}
       >
-        <Input />
+        <Input.TextArea/>
       </Form.Item>
       <Form.Item
         label="image"
