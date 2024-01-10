@@ -16,19 +16,12 @@ const SignIn = () => {
 
   const onFinishSignIn = async (values) => {
     try {
-      //message.destroy(); // Clear any previous messages
       setIsLoading(true);
-      const authResult = await signIn(values.username, values.password);
-      if (authResult) {
-        try {
-          message.success('Sign in successful!');
-          navigate('/dashboard');
-        } catch (error) {
-          message.error('An error occurred after sign in. Please try again.');
-        }
-      }
+      await signIn(values.username, values.password);
+      message.success('Sign in successful!');
+      navigate('/discover');
     } catch (error) {
-      message.error('An error occurred during sign in. Please try again.');
+      message.error('Sign in failed. Please check your credentials and try again.');
     } finally {
       setIsLoading(false);
     }
@@ -47,7 +40,7 @@ const SignIn = () => {
       };
       await handleUserRegister(userData);
       message.success('Registration successful!');
-      setIsSignIn(true); // Switch to the sign-in form after successful registration
+      setIsSignIn(true);
     } catch (error) {
       message.error('An error occurred during registration. Please try again.');
     } finally {

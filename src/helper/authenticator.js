@@ -15,9 +15,11 @@ export const AuthProvider = ({ children }) => {
       // Assuming the response will have a property "token" with the JWT
       localStorage.setItem('authToken', response.token);
       setIsAuthenticated(true);
+      return true;
     } catch (error) {
       console.error('Sign-in error:', error);
       setIsAuthenticated(false);
+      throw new Error('Authentication failed');
     }
   };
 
