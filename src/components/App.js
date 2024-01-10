@@ -110,16 +110,17 @@ function Footer() {
     <div className="footer" style={{zIndex: '1' }}>
       <p>© {year} GameCraft - Community Driven Game Development</p>
       <p>
-        <a href="/terms-of-service" style={{ color: 'white' }}>
+        <a href="/terms-of-service" style={{ color: 'white', paddingLeft: '5px' }}>
           Terms of Service
         </a>{' '}
         |{' '}
-        <a href="/privacy-policy" style={{ color: 'white' }}>
+        <a href="/privacy-policy" style={{ color: 'white', paddingLeft: '5px', paddingRight: '5px'}}>
           Privacy Policy 
         </a>
       </p>
       <p>
-        <a href="/contact" style={{ color: 'white' }}>
+        |{' '}
+        <a href="/contact" style={{ color: 'white', paddingLeft: '5px' }}>
           Contact Us
         </a>
       </p>
