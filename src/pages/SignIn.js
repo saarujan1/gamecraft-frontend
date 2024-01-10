@@ -17,6 +17,7 @@ const SignIn = () => {
   const onFinishSignIn = async (values) => {
     try {
       setIsLoading(true);
+      const signInSuccessful = await signIn(values.username, values.password);
       message.success('Sign in successful!');
       navigate('/discover');
     } catch (error) {
