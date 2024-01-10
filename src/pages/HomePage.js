@@ -19,7 +19,7 @@ const HomePage = () => {
       </Row>
 
       <h2 style={{fontSize: '40px', color: '#F64C72'}}>Features</h2>
-      <ul style={{fontSize: "30px", listStyleType: 'none', lineHeight: '2'}}>
+      <ul style={{fontSize: "30px", listStyleType: 'none', fontWeight: 'bold', lineHeight: '2'}}>
     <li>View all games on our dashboard, including top-voted games and games you follow</li>
     <li>Register as a game developer or a user</li>
     <li>Submit your game ideas and give options for users to contribute</li>
