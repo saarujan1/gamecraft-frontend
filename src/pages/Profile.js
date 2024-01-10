@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Skeleton, Button, Modal, Form, Input, InputNumber, message } from 'antd';
+import { Card, Col, Row, Skeleton, Button, Modal, Form, Input, message } from 'antd';
 import { handleGameGetall, handleGameUpdate, handleGameSubscribe } from '../services/api';
 import { useAuth } from '../helper/authenticator';
 

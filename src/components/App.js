@@ -6,7 +6,6 @@ import "../styles/App.css"
 import HomePage from "../pages/HomePage";
 import Profile from "../pages/Profile";
 import Discover from "../pages/Discover";
-import Dashboard from "../pages/Dashboard";
 import SubmitPost from '../pages/SubmitPost';
 import SignIn from "../pages/SignIn";
 import TermsOfService from "../pages/TermsOfService";
@@ -48,7 +47,6 @@ function Content() {
     <Routes>
       <Route path="/" element={<HomePage/>}></Route>
       <Route path="/discover" element={<Discover/>}></Route>
-      <Route path="/dashboard" element={<Dashboard/>}></Route>
       <Route path="/profile" element={<Profile/>}></Route>
       <Route path="/signin" element={<SignIn />}></Route>
       <Route path="/submit-post" element={<SubmitPost />}></Route>
@@ -82,7 +80,6 @@ function NavBar() {
         { label: 'Home', key: '/', icon: <HomeOutlined /> },
         { label: 'Discover', key: '/discover', icon: <BulbOutlined /> },
         { label: 'Create a game', key: '/submit-post', icon: <EditOutlined /> },
-        { label: 'Dashboard', key: '/dashboard', icon: <DashboardOutlined /> },
         { label: 'Profile', key: '/profile', icon: <UserOutlined /> },
         { label: 'Sign out', key: 'signout', icon: <PoweroffOutlined /> },
       ]

@@ -1,5 +1,5 @@
 import { Row, Col } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 import homepage1 from "../assets/homepage1.svg"
 
 const HomePage = () => {
