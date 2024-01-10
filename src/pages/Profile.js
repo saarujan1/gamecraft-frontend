@@ -102,7 +102,7 @@ function Profile() {
 
     return (
         <div>
-        <h1>Profile Page</h1>
+        <h1>Welcome back, {username}!</h1>
         <h2>My Games</h2>
         {isLoading ? (
             <Skeleton active />
