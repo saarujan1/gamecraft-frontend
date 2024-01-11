@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Button, Form, Input, Spin, message, Card } from 'antd';
 import { handleGameSubmit } from '../services/api';
 import { useAuth } from '../helper/authenticator'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 const SubmitPost = () => {
-  const { isAuthenticated, username, signIn, signOut } = useAuth();
+  const {username} = useAuth();
 
   console.log('USERNAME:' , username)
 
@@ -35,7 +36,7 @@ function SubmitGamePost({ devName }) {
       devName : devName,
       description : values.description,
       image : values.image,
-      options : values.options,
+      options: values.options || [],
       roadmap : values.roadmap,
       sharePrice : parseFloat(values.sharePrice),
       minThreshold : values.minThreshold,
@@ -120,18 +121,34 @@ function SubmitGamePost({ devName }) {
       >
         <Input />
       </Form.Item>
-      <Form.Item
-        label="options"
-        name="options"
-        rules={[
-          {
-            required: true,
-            message: 'Please input options!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+      <Form.List name="options">
+        {(fields, { add, remove }) => (
+          <>
+            {fields.map((field, index) => (
+              <Form.Item
+                required={index === 0}
+                key={field.key}
+                label={index === 0 ? 'Options' : ''}
+                style={{ marginBottom: 0 }}
+              >
+                <Form.Item {...field} rules={[{ required: true, message: 'Please input an option or delete this field.' }]} noStyle>
+                  <Input placeholder="game option" style={{ width: '90%' }} />
+                </Form.Item>
+                {fields.length > 1 ? (
+                  <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />
+                ) : null}
+              </Form.Item>
+            ))}
+            {fields.length < 3 && (
+              <Form.Item>
+                <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />} style={{ width: '50%' }}>
+                  Add Option
+                </Button>
+              </Form.Item>
+            )}
+          </>
+        )}
+      </Form.List>
       
       <Form.Item
         label="roadmap"
