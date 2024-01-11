@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, Skeleton, Button, Modal, Form, Input, message } from 'antd';
 import { handleGameGetall, handleGameUpdate, handleGameSubscribe } from '../services/api';
-import { useAuth } from '../helper/authenticator';
+import { AuthProvider, useAuth } from '../helper/authenticator';
 
 function Profile() {
     const [games, setGames] = useState([]);
@@ -11,6 +11,7 @@ function Profile() {
     const { username } = useAuth();
     const [form] = Form.useForm();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [usernameLocal, setUsernameLocal] = useState(localStorage.getItem('username'));
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -47,6 +48,10 @@ function Profile() {
 
         fetchGames();
         fetchSubscribedGames();
+    }, []);
+
+    useEffect(() => {
+        setUsernameLocal(localStorage.getItem('authToken'));
     }, []);
 
     const gameUpdateForm = (game) => {
@@ -98,11 +103,11 @@ function Profile() {
     }
 
     // Filter games to include only the user's activity
-    const userGames = games.filter((game) => game.devName === username);
+    const userGames = games.filter((game) => game.devName === usernameLocal);
 
     return (
         <div>
-        <h1>Welcome back, {username}!</h1>
+        <h1>Welcome back, {usernameLocal}!</h1>
         <h2>My Games</h2>
         {isLoading ? (
             <Skeleton active />

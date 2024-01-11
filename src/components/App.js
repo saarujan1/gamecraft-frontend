@@ -13,10 +13,11 @@ import PrivacyPolicy from "../pages/PrivacyPolicy";
 import Contact from "../pages/Contact";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import React from 'react';
-import { useAuth } from '../helper/authenticator'; 
+import { AuthProvider, useAuth } from '../helper/authenticator'; 
 
 function App() {
   return (
+    <AuthProvider>
     <div className="App">
       <Header />
       <div className="content-area">
@@ -24,6 +25,7 @@ function App() {
       </div>
       <Footer />
     </div>
+    </AuthProvider>
   );
 }
 

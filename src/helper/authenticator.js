@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
       const response = await handleUserLogin({ username, password });
       setUsername(username);
       // Assuming the response will have a property "token" with the JWT
-      localStorage.setItem('authToken', response.token);
+      localStorage.setItem('authToken', username);
       setIsAuthenticated(true);
       return true;
     } catch (error) {
