@@ -66,13 +66,13 @@ function SubmitGamePost({ devName }) {
     <Form
       name="signInForm"
       labelCol={{
-        span: 9,
+        span: 24,
       }}
       wrapperCol={{
-        span: 18,
+        span: 24,
       }}
       style={{
-        maxWidth: 700,
+        maxWidth: 700
       }}
       initialValues={{
         remember: true,

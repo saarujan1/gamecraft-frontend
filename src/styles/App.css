@@ -31,12 +31,12 @@ body {
 
 .footer {
   justify-content: center;
-  margin-top: auto;
+  margin-top: 180px;
 }
 
 .content-area {
   flex-grow: 1;
-  padding-top: 80px;
+  padding-top: 40px;
   padding-bottom: 80px;
   margin: 0 10%; 
 }
