@@ -11,6 +11,7 @@ import SignIn from "../pages/SignIn";
 import TermsOfService from "../pages/TermsOfService";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import Contact from "../pages/Contact";
+import logo from "../assets/GamecraftLogo.png"
 import { Route, Routes, useNavigate } from "react-router-dom";
 import React from 'react';
 import { AuthProvider, useAuth } from '../helper/authenticator'; 
@@ -32,7 +33,13 @@ function App() {
 function Header() {
   return (
     <div className="header" style={{ display: 'flex', alignItems: 'center', position: "fixed", width: '100%', marginBottom: '10%', zIndex: '1' }}>
-      <div style={{ }}>GameCraft</div>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <img
+          src={logo}
+          style={{ marginRight: "10px", height: '40px' }}
+        />
+        <div style={{ }}>GameCraft</div>
+      </div>
       <div style={{}}><NavBar/></div>
     </div>
   )
