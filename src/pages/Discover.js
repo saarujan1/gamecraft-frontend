@@ -5,6 +5,7 @@ import { PlusOutlined, UpOutlined, DownOutlined } from '@ant-design/icons';
 import { useAuth } from '../helper/authenticator';
 
 const Discover = () => {
+  // State hooks for managing component state
   const [games, setGames] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { username } = useAuth();
@@ -13,6 +14,7 @@ const Discover = () => {
   const [selectedGame, setSelectedGame] = useState(null);
   const [votes, setVotes] = useState({});
 
+  // Effect hook to fetch games data on component mount
   useEffect(() => {
     const fetchGames = async () => {
       try {
@@ -28,26 +30,32 @@ const Discover = () => {
     fetchGames();
   }, []);
 
+  // State hooks for managing modal visibility
   const [isOptionsModalVisible, setIsOptionsModalVisible] = useState(false);
 
+  // Event handler to close the main game details modal
   const handleModalCancel = () => {
     setIsModalVisible(false);
   };
 
+  // Event handler to close the options modal
   const handleOptionsModalCancel = () => {
     setIsOptionsModalVisible(false);
   };
 
+  // Function to display all details of a selected game
   const getAllDetails = (game) => {
     setSelectedGame(game);
     setIsModalVisible(true);
   }
 
+  // Function to show options (upvote/downvote) for a selected game
   const showOptions = (game) => {
     setSelectedGame(game);
     setIsOptionsModalVisible(true);
   }
 
+  // Placeholder functions for upvote/downvote functionality
   const handleUpvote = (optionId) => {
     // Upvote functionality here
   };
@@ -56,6 +64,7 @@ const Discover = () => {
     // Downvote functionality here
   };
   
+  // Modal component for displaying options (upvote/downvote)
   const OptionsModal = () => (
     <Modal
       title="Game Options"
@@ -80,6 +89,7 @@ const Discover = () => {
     </Modal>
   );
 
+  // Modal component for displaying detailed information about a game
   const GameModal = () => (
     <Modal
       title={selectedGame ? selectedGame.name : 'Game Details'}
@@ -100,11 +110,13 @@ const Discover = () => {
     </Modal>
   );
 
+  // Placeholder function for handling subscription click
   const handleSubscribeClick = async (gameId) => {
-
+    // Subscription handling logic here
   };
 
-   return (
+  // Main component rendering games, details modals, and options modal
+  return (
     <div>
       <h1>Discover Games</h1>
       {isLoading ? (
@@ -138,6 +150,7 @@ const Discover = () => {
           ))}
         </Row>
       )}
+      {/* Render the modals */}
       <GameModal />
       <OptionsModal />
     </div>

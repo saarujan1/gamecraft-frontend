@@ -5,10 +5,12 @@ import { useAuth } from '../helper/authenticator'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 const SubmitPost = () => {
+    // Destructure properties from useAuth hook
   const { isAuthenticated, username, signIn, signOut } = useAuth();
 
   console.log('USERNAME:' , username)
 
+  // Display a card with the SubmitGamePost component
     return (
       <div style={{ 
         display: 'flex',
@@ -25,9 +27,11 @@ const SubmitPost = () => {
 };
 
 function SubmitGamePost({ devName }) {
+  
+  // State hook to manage loading state
   console.log('DEVNAME:' , devName)
 
-
+  // Handler for form submission
   const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = async (values) => {
@@ -42,22 +46,32 @@ function SubmitGamePost({ devName }) {
       minThreshold : values.minThreshold,
       revenueSharing : parseInt(values.revenueSharing, 10)
     }
+
     try {
-      setIsLoading(true)
+      // Set loading state to true during submission
+      setIsLoading(true);
+
+      // Call API to submit game data
       await handleGameSubmit(gameData);
-      message.success('Game successfuly submitted!');
+
+      // Display success message
+      message.success('Game successfully submitted!');
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      // Display error message if submission fails
       message.error('An error occurred. Please try again.');
     } finally {
-      setIsLoading(false)
+      // Set loading state to false after submission (whether successful or not)
+      setIsLoading(false);
     }
   };
 
+  // Handler for form submission failure
   const onFinishFailed = (errorInfo) => {
     console.log('Sign in Failed:', errorInfo);
   };
 
+  // Display a spinner while loading
   if (isLoading) {
     return <Spin />;
   }

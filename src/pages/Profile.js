@@ -4,6 +4,7 @@ import { handleGameGetall, handleGameUpdate, handleGameSubscribe } from '../serv
 import { AuthProvider, useAuth } from '../helper/authenticator';
 
 function Profile() {
+    // State hooks for managing component state
     const [games, setGames] = useState([]);
     const [subscribedGames, setSubscribedGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -13,14 +14,17 @@ function Profile() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [usernameLocal, setUsernameLocal] = useState(localStorage.getItem('username'));
 
+    // Function to open the modal for updating game details
     const showModal = () => {
         setIsModalOpen(true);
     };
-  
+
+    // Event handler to close the modal for updating game details
     const handleCancel = () => {
         setIsModalOpen(false);
     };
 
+    // Effect hooks for fetching games and subscribed games data on component mount
     useEffect(() => {
         const fetchGames = async () => {
             try {
@@ -50,61 +54,66 @@ function Profile() {
         fetchSubscribedGames();
     }, []);
 
+    // Effect hook to update the local username on component mount
     useEffect(() => {
         setUsernameLocal(localStorage.getItem('authToken'));
     }, []);
 
+    // Function to populate the update game details form with the selected game's data
     const gameUpdateForm = (game) => {
         setSelectedGame(game);
         setIsModalOpen(true);
         form.setFieldsValue({
-        name : game.name,
-        devName : game.devName,
-        description : game.description,
-        image : game.image,
-        options : game.options,
-        roadmap : game.roadmap,
-        sharePrice : parseFloat(game.sharePrice),
-        minThreshold : game.minThreshold,
-        revenueSharing : parseInt(game.revenueSharing, 10)
+            name: game.name,
+            devName: game.devName,
+            description: game.description,
+            image: game.image,
+            options: game.options,
+            roadmap: game.roadmap,
+            sharePrice: parseFloat(game.sharePrice),
+            minThreshold: game.minThreshold,
+            revenueSharing: parseInt(game.revenueSharing, 10),
         });
     };
 
+    // Event handler for submitting the updated game details
     const onFinish = async (values) => {
         const gameData = {
             id: selectedGame.id,
-            name : values.name,
-            devName : selectedGame.devName,
-            description : values.description,
-            image : values.image,
-            options : values.options,
-            roadmap : values.roadmap,
-            sharePrice : parseFloat(values.sharePrice),
-            minThreshold : values.minThreshold,
-            revenueSharing : parseInt(values.revenueSharing, 10)
-        }
-        console.log(gameData)
+            name: values.name,
+            devName: selectedGame.devName,
+            description: values.description,
+            image: values.image,
+            options: values.options,
+            roadmap: values.roadmap,
+            sharePrice: parseFloat(values.sharePrice),
+            minThreshold: values.minThreshold,
+            revenueSharing: parseInt(values.revenueSharing, 10),
+        };
+
         try {
-            setIsLoading(true)
+            setIsLoading(true);
             await handleGameUpdate(gameData);
             message.success('Game details updated successfully!');
         } catch (error) {
+            // Update local state with the updated game data and close the modal
             setGames((prevGames) =>
-            prevGames.map((game) =>
-                game.id === selectedGame.id ? { ...game, ...gameData } : game
-            )
+                prevGames.map((game) =>
+                    game.id === selectedGame.id ? { ...game, ...gameData } : game
+                )
             );
             setIsModalOpen(false);
             console.error('Error updating game details:', error);
-            message.success('Game details updated successfully!');
+            message.error('Error updating game details!');
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
-    }
+    };
 
     // Filter games to include only the user's activity
     const userGames = games.filter((game) => game.devName === usernameLocal);
 
+    // Main component rendering user's games and subscribed games
     return (
         <div>
         <h1>Welcome back, {usernameLocal}!</h1>
