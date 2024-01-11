@@ -5,24 +5,37 @@ import { useNavigate } from 'react-router-dom';
 import { handleUserRegister } from '../services/api';
 
 const SignIn = () => {
+  // State for toggling between Sign In and Sign Up views
   const [isSignIn, setIsSignIn] = useState(true);
+
+  // Destructure properties from useAuth hook
   const { isAuthenticated, signIn, signOut } = useAuth();
+
+  // State for managing loading state during form submission
   const [isLoading, setIsLoading] = useState(false);
+
+  // React Router's navigate function for redirection
   const navigate = useNavigate();
 
+  // Function to toggle between Sign In and Sign Up views
   const toggleView = () => {
     setIsSignIn(!isSignIn);
   };
 
+  // Handler for Sign In form submission
   const onFinishSignIn = async (values) => {
     try {
       setIsLoading(true);
+      // Call authentication function from useAuth hook
       await signIn(values.username, values.password);
+      // Display success message and redirect to the Discover page
       message.success('Sign in successful!');
       navigate('/discover');
     } catch (error) {
+      // Display error message if Sign In fails
       message.error('Sign in failed. Please check your credentials and try again.');
     } finally {
+      // Set loading state to false after form submission
       setIsLoading(false);
     }
   };
@@ -31,20 +44,26 @@ const SignIn = () => {
     message.error('Sign in Failed: ' + errorInfo);
   };
 
+  // Handler for Sign Up form submission
   const onFinishSignUp = async (values) => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
+      // Prepare user data for registration
       const userData = {
         username: values.username,
         password: values.password,
       };
+      // Call API to register user
       await handleUserRegister(userData);
+      // Display success message and switch to Sign In view
       message.success('Registration successful!');
       setIsSignIn(true);
     } catch (error) {
+      // Display error message if registration fails
       message.error('An error occurred during registration. Please try again.');
     } finally {
-      setIsLoading(false)
+      // Set loading state to false after form submission
+      setIsLoading(false);
     }
   };
 
@@ -52,6 +71,7 @@ const SignIn = () => {
     message.error('Registration Failed: ' + errorInfo);
   };
 
+  // Render the component differently based on user authentication and loading state
   if (isAuthenticated) {
     return (
       <div>
@@ -65,6 +85,7 @@ const SignIn = () => {
     return <Spin />;
   }
 
+  // Render the Sign In or Sign Up form based on the current view
   return (
     <Space direction="vertical" size={16}>
       <Card title={isSignIn ? 'Sign in' : 'Sign up'} style={{ width: 400 }}>
