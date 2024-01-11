@@ -22,10 +22,18 @@ function Profile() {
     };
 
     useEffect(() => {
+        setUsernameLocal(localStorage.getItem('authToken'));
+    }, []);
+
+    useEffect(() => {
         const fetchGames = async () => {
             try {
                 const response = await handleGameGetall();
+                console.log('RESPONSE:', response)
                 setGames(response.data);
+
+                
+                console.log('SUBSCRIBED GAMES:', subscribedGames)
             } catch (error) {
                 console.error('Error fetching games:', error);
             } finally {
@@ -33,25 +41,7 @@ function Profile() {
             }
         };
 
-        const fetchSubscribedGames = async () => {
-            try {
-                const data = await handleGameSubscribe({ username });
-                if (data.result) {
-                    setSubscribedGames(data.games);
-                } else {
-                    console.error('Error fetching subscribed games:', data.msg);
-                }
-            } catch (error) {
-                console.error('Error fetching subscribed games:', error.message);
-            }
-        };
-
         fetchGames();
-        fetchSubscribedGames();
-    }, []);
-
-    useEffect(() => {
-        setUsernameLocal(localStorage.getItem('authToken'));
     }, []);
 
     const gameUpdateForm = (game) => {
@@ -104,6 +94,7 @@ function Profile() {
 
     // Filter games to include only the user's activity
     const userGames = games.filter((game) => game.devName === usernameLocal);
+    const gamesSub = games.filter((game) => game.subscribers.includes(usernameLocal));
 
     return (
         <div>
@@ -116,7 +107,7 @@ function Profile() {
             {userGames.length > 0 ? userGames.map((game) => (
                 <Col key={game.id} xs={24} sm={12} md={8} lg={8}>
                 <Card
-                    title={game.title}
+                    title={game.name}
                     cover={<img src={game.image} alt={game.title} />}
                 >
 
@@ -275,21 +266,28 @@ function Profile() {
         )}
         <h2>Subscribed Games</h2>
         {isLoading ? (
-            <Skeleton active />
-        ) : (
-            <Row gutter={[16, 16]}>
-            {subscribedGames.length > 0 ? subscribedGames.map((game) => (
-                <Col key={game.id} xs={24} sm={12} md={8} lg={8}>
+        <Skeleton active />
+      ) : (
+        <Row gutter={[16, 16]}>
+          {gamesSub.length > 0 ? (
+            gamesSub.map((game) => (
+              <Col key={game.id} xs={24} sm={12} md={8} lg={8}>
                 <Card
-                    title={game.title}
-                    cover={<img src={game.image} alt={game.title} />}
+                  title={game.name}
+                  cover={<img src={game.image} alt={game.title} />}
                 >
-                    <p>{game.description}</p>
+                  <p>{game.description}</p>
+                    <p>Share Price: ${game.sharePrice}</p>
+                    <p>Minimum Threshold: {game.minThreshold}</p>
+                    <p>Revenue Sharing: {game.revenueSharing}%</p>
                 </Card>
-                </Col>
-            )) : <p>No subscribed games</p>}
-            </Row>
-        )}
+              </Col>
+            ))
+          ) : (
+            <p>No subscribed games</p>
+          )}
+        </Row>
+      )}
         </div>
     );
 }

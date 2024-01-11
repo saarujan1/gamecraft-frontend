@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Skeleton, Button, Modal, List } from 'antd';
-import { handleGameGetall } from '../services/api';
+import { Card, Col, Row, Skeleton, Button, Modal, List, message } from 'antd';
+import { handleGameGetall, handleGameSubscribe } from '../services/api';
 import { PlusOutlined, UpOutlined, DownOutlined } from '@ant-design/icons';
 import { useAuth } from '../helper/authenticator';
 
@@ -12,6 +12,7 @@ const Discover = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedGame, setSelectedGame] = useState(null);
   const [votes, setVotes] = useState({});
+  const [usernameLocal, setUsernameLocal] = useState(localStorage.getItem('username'));
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -100,8 +101,24 @@ const Discover = () => {
     </Modal>
   );
 
-  const handleSubscribeClick = async (gameId) => {
+  useEffect(() => {
+    setUsernameLocal(localStorage.getItem('authToken'));
+  }, []);
 
+  const handleSubscribeClick = async (gameId) => {
+    try {
+      const response = await handleGameSubscribe({username: usernameLocal, game_id: gameId});
+      console.log(response)
+      if(response.result) {
+        message.success("Subscribed to game")
+      } else {
+        message.error("Subscribtion failed")
+      }
+    } catch (error) {
+      message.error("Subscribtion failed");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
    return (
