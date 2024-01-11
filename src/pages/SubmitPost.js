@@ -5,7 +5,7 @@ import { useAuth } from '../helper/authenticator'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 const SubmitPost = () => {
-  const {username} = useAuth();
+  const { isAuthenticated, username, signIn, signOut } = useAuth();
 
   console.log('USERNAME:' , username)
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Skeleton, Button, Modal } from 'antd';
+import { Card, Col, Row, Skeleton, Button, Modal, List } from 'antd';
 import { handleGameGetall } from '../services/api';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, UpOutlined, DownOutlined } from '@ant-design/icons';
 import { useAuth } from '../helper/authenticator';
 
 const Discover = () => {
@@ -11,6 +11,7 @@ const Discover = () => {
   const [subscribedGames, setSubscribedGames] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedGame, setSelectedGame] = useState(null);
+  const [votes, setVotes] = useState({});
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -27,14 +28,57 @@ const Discover = () => {
     fetchGames();
   }, []);
 
+  const [isOptionsModalVisible, setIsOptionsModalVisible] = useState(false);
+
   const handleModalCancel = () => {
     setIsModalVisible(false);
+  };
+
+  const handleOptionsModalCancel = () => {
+    setIsOptionsModalVisible(false);
   };
 
   const getAllDetails = (game) => {
     setSelectedGame(game);
     setIsModalVisible(true);
   }
+
+  const showOptions = (game) => {
+    setSelectedGame(game);
+    setIsOptionsModalVisible(true);
+  }
+
+  const handleUpvote = (optionId) => {
+    // Upvote functionality here
+  };
+
+  const handleDownvote = (optionId) => {
+    // Downvote functionality here
+  };
+  
+  const OptionsModal = () => (
+    <Modal
+      title="Game Options"
+      visible={isOptionsModalVisible}
+      onCancel={handleOptionsModalCancel}
+      footer={null}
+    >
+      {selectedGame && (
+        <List
+          dataSource={selectedGame.options}
+          renderItem={(option, index) => (
+            <List.Item key={index}>
+              {option}
+              <div style={{ marginLeft: 'auto' }}>
+                <Button icon={<UpOutlined />} onClick={() => handleUpvote(index)}>Upvote</Button>
+                <Button icon={<DownOutlined />} onClick={() => handleDownvote(index)} style={{ marginLeft: '10px' }}>Downvote</Button>
+              </div>
+            </List.Item>
+          )}
+        />
+      )}
+    </Modal>
+  );
 
   const GameModal = () => (
     <Modal
@@ -44,16 +88,14 @@ const Discover = () => {
       footer={null}
     >
       {selectedGame && (
-        <div>
+        <>
           <p>Developer: {selectedGame.devName}</p>
           <p>Description: {selectedGame.description}</p>
-          <p>Options: {selectedGame.options}</p>
           <p>Roadmap: {selectedGame.roadmap}</p>
           <p>Share Price: ${selectedGame.sharePrice}</p>
           <p>Minimum Threshold: {selectedGame.minThreshold}</p>
           <p>Revenue Sharing: {selectedGame.revenueSharing}%</p>
-          {/* Add more details as needed */}
-        </div>
+        </>
       )}
     </Modal>
   );
@@ -62,7 +104,7 @@ const Discover = () => {
 
   };
 
-  return (
+   return (
     <div>
       <h1>Discover Games</h1>
       {isLoading ? (
@@ -80,8 +122,7 @@ const Discover = () => {
                       icon={<PlusOutlined />}
                       style={{ marginLeft: 8 }}
                       onClick={() => handleSubscribeClick(game.id)}
-                    >
-                    </Button>
+                    />
                   </>
                 }
                 cover={<img src={game.image} />}
@@ -90,16 +131,15 @@ const Discover = () => {
                 <p>Developer: {game.devName}</p>
                 <p>Share Price: ${game.sharePrice}</p>
                 <p>Revenue Sharing: {game.revenueSharing}%</p>
-                <Button onClick={() => getAllDetails(game)}>
-                    Read more
-                </Button>
+                <Button onClick={() => getAllDetails(game)}>Read more</Button>
+                <Button style={{ marginTop: '8px' }} onClick={() => showOptions(game)}>Options</Button>
               </Card>
             </Col>
           ))}
         </Row>
-
       )}
       <GameModal />
+      <OptionsModal />
     </div>
   );
 };
