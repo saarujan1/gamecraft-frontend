@@ -73,3 +73,10 @@ export const handleGameUpdate = async (data) => {
 
   return response
 }
+
+// Function to handle updating game details
+export const handleGameVote = async (data) => {
+  const response = await fetchData('/game/vote', data, 'POST')
+
+  return response
+}

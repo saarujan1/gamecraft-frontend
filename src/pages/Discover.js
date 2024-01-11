@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, Skeleton, Button, Modal, List, message } from 'antd';
-import { handleGameGetall, handleGameSubscribe } from '../services/api';
-import { PlusOutlined, UpOutlined, DownOutlined } from '@ant-design/icons';
-import { useAuth } from '../helper/authenticator';
+import { handleGameGetall, handleGameSubscribe} from '../services/api';
+import { LikeOutlined, DislikeOutlined, PlusOutlined} from '@ant-design/icons';
 
 const Discover = () => {
   // State hooks for managing component state
   const [games, setGames] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { username } = useAuth();
-  const [subscribedGames, setSubscribedGames] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedGame, setSelectedGame] = useState(null);
-  const [votes, setVotes] = useState({});
   const [usernameLocal, setUsernameLocal] = useState(localStorage.getItem('username'));
+  const [votes, setVotes] = useState(JSON.parse(localStorage.getItem('gameVotes')) || {});
+  const [optionVotes, setOptionVotes] = useState(JSON.parse(localStorage.getItem('optionVotes')) || {});
+
 
   // Effect hook to fetch games data on component mount
   useEffect(() => {
@@ -27,9 +26,24 @@ const Discover = () => {
         setIsLoading(false);
       }
     };
-
     fetchGames();
   }, []);
+
+  const handleVote = (gameId, voteType) => {
+    const newVotes = { ...votes, [gameId]: votes[gameId] === voteType ? null : voteType };
+    setVotes(newVotes);
+    localStorage.setItem('gameVotes', JSON.stringify(newVotes));
+  };
+
+  const handleOptionVote = (gameId, optionIndex, voteType) => {
+    const gameOptionVotes = optionVotes[gameId] || {};
+    const newVoteType = gameOptionVotes[optionIndex] === voteType ? null : voteType;
+    const newGameOptionVotes = { ...gameOptionVotes, [optionIndex]: newVoteType };
+
+    const newOptionVotes = { ...optionVotes, [gameId]: newGameOptionVotes };
+    setOptionVotes(newOptionVotes);
+    localStorage.setItem('optionVotes', JSON.stringify(newOptionVotes));
+  };
 
   // State hooks for managing modal visibility
   const [isOptionsModalVisible, setIsOptionsModalVisible] = useState(false);
@@ -56,15 +70,6 @@ const Discover = () => {
     setIsOptionsModalVisible(true);
   }
 
-  // Placeholder functions for upvote/downvote functionality
-  const handleUpvote = (optionId) => {
-    // Upvote functionality here
-  };
-
-  const handleDownvote = (optionId) => {
-    // Downvote functionality here
-  };
-  
   // Modal component for displaying options (upvote/downvote)
   const OptionsModal = () => (
     <Modal
@@ -76,15 +81,24 @@ const Discover = () => {
       {selectedGame && (
         <List
           dataSource={selectedGame.options}
-          renderItem={(option, index) => (
-            <List.Item key={index}>
-              {option}
-              <div style={{ marginLeft: 'auto' }}>
-                <Button icon={<UpOutlined />} onClick={() => handleUpvote(index)}>Upvote</Button>
-                <Button icon={<DownOutlined />} onClick={() => handleDownvote(index)} style={{ marginLeft: '10px' }}>Downvote</Button>
-              </div>
-            </List.Item>
-          )}
+          renderItem={(option, index) => {
+            const currentVote = optionVotes[selectedGame.id]?.[index];
+            return (
+              <List.Item key={index}>
+                {option}
+                <div style={{ marginLeft: 'auto' }}>
+                  <Button 
+                    icon={<LikeOutlined style={{ color: currentVote === 'upvote' ? 'green' : 'grey' }} />}
+                    onClick={() => handleOptionVote(selectedGame.id, index, 'upvote')}
+                  />
+                  <Button 
+                    icon={<DislikeOutlined style={{ color: currentVote === 'downvote' ? 'red' : 'grey' }} />}
+                    onClick={() => handleOptionVote(selectedGame.id, index, 'downvote')}
+                  />
+                </div>
+              </List.Item>
+            );
+          }}
         />
       )}
     </Modal>
@@ -163,6 +177,14 @@ const Discover = () => {
                 <p>Revenue Sharing: {game.revenueSharing}%</p>
                 <Button onClick={() => getAllDetails(game)}>Read more</Button>
                 <Button style={{ marginTop: '8px' }} onClick={() => showOptions(game)}>Options</Button>
+                <Button 
+                  icon={<LikeOutlined style={{ color: votes[game.id] === 'upvote' ? 'green' : 'grey' }} />}
+                  onClick={() => handleVote(game.id, 'upvote')}
+                />
+                <Button 
+                  icon={<DislikeOutlined style={{ color: votes[game.id] === 'downvote' ? 'red' : 'grey' }} />}
+                  onClick={() => handleVote(game.id, 'downvote')}
+                />
               </Card>
             </Col>
           ))}
